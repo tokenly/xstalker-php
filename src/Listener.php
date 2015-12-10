@@ -32,11 +32,13 @@ class Listener
         $this->buildHandlers();
 
         $this->state = new \ArrayObject([
-            'peer'      => null,
-            'connected' => false,
-            'start'     => time(),
-            'lastTx'    => 0,
-            'lastBlock' => 0,
+            'peer'       => null,
+            'connected'  => false,
+            'start'      => time(),
+            'lastTx'     => 0,
+            'txCount'    => 0,
+            'lastBlock'  => 0,
+            'blockCount' => 0,
         ]);
 
         return $this;
@@ -86,7 +88,9 @@ class Listener
 
         $dtF = new DateTime("@0");
         $dtT = new DateTime("@$seconds");
-        $desc = $dtF->diff($dtT)->format('%a day(s), %h hour(s), %i minute(s) and %s second(s)');
+        $desc = $dtF->diff($dtT)
+            ->format('%a day(s), %h hour(s), %i minute(s) and %s second(s).')
+            .' Handled '.$this->state['blockCount'].' blocks and '.$this->state['txCount'].' transactions.';
 
         $this->wlog("Been running for $desc");
 
@@ -133,6 +137,7 @@ class Listener
                     if ($item->isBlock() OR $item->isFilteredBlock()) {
                         $this->block_handler->handleBlock($item->getHash()->getHex());
                         $this->state['lastBlock'] = time();
+                        ++$this->state['blockCount'];
 
                     } else if ($item->isTx()) {
                         // get the full tx data from bitcoind
@@ -148,6 +153,7 @@ class Listener
             try {
                 $this->tx_handler->handleTransaction($tx->getTransaction());
                 $this->state['lastTx'] = time();
+                ++$this->state['txCount'];
             } catch (Exception $e) {
                 $this->werror("ERROR: ".$e->getMessage());
             }
