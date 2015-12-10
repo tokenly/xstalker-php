@@ -2,4 +2,6 @@
 
 set -e
 
-# do nothing
+# copy a default environment file
+/bin/cp -n .env.example .env
+
