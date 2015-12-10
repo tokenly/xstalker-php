@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3581ea65ce20f98478793c82967b9d76",
-    "content-hash": "365579a0a2c2a81a1bb9a3150c5a195a",
+    "hash": "1fc756731d13e1090ac457fff1751125",
+    "content-hash": "d471772e753668cb08c6191136eb6ba7",
     "packages": [
         {
             "name": "bitwasp/bitcoin",
@@ -72,12 +72,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tokenly/bitcoin-p2p-php.git",
-                "reference": "1c30999ab3a75fd4288e2e0f7a57bd2c5faba3b4"
+                "reference": "5528a0d47144836717650d1367a42f6424626589"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/tokenly/bitcoin-p2p-php/zipball/5528a0d47144836717650d1367a42f6424626589",
-                "reference": "1c30999ab3a75fd4288e2e0f7a57bd2c5faba3b4",
+                "reference": "5528a0d47144836717650d1367a42f6424626589",
                 "shasum": ""
             },
             "require": {
@@ -119,9 +119,9 @@
             "description": "Implementation of the bitcoin protocol using ReactPHP",
             "homepage": "https://github.com/bit-wasp/bitcoin-php",
             "support": {
-                "source": "https://github.com/tokenly/bitcoin-p2p-php/tree/v0.0.8"
+                "source": "https://github.com/tokenly/bitcoin-p2p-php/tree/closeemitter"
             },
-            "time": "2015-11-30 22:44:53"
+            "time": "2015-12-09 14:22:33"
         },
         {
             "name": "bitwasp/buffertools",
