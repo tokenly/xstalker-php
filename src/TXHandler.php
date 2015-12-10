@@ -24,7 +24,7 @@ class TXHandler extends BitcoindEventHandler
 
 
     protected function buildTXData(Transaction $transaction) {
-        $ts = intval(round(microtime(true) / 1000));
+        $ts = intval(round(microtime(true) * 1000));
         $txid = $transaction->getTxId()->getHex();
 
         $xstalker_data = [
