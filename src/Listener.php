@@ -66,7 +66,7 @@ class Listener
     protected function initPeerConnector() {
         $factory = new \BitWasp\Bitcoin\Networking\Factory($this->loop);
         $this->peer_factory = $factory->getPeerFactory($factory->getDns());
-        $this->host = $this->peer_factory->getAddress(getenv('BITCOIND_HOST'));
+        $this->host = $this->peer_factory->getAddress(gethostbyname(getenv('BITCOIND_HOST')), getenv('BITCOIND_PORT'));
         $this->connector = $this->peer_factory->getConnector();
     }
 
