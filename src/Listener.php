@@ -3,6 +3,7 @@
 namespace XStalker;
 
 use BitWasp\Bitcoin\Networking\Messages\Inv;
+use BitWasp\Bitcoin\Networking\Messages\Ping;
 use BitWasp\Bitcoin\Networking\Messages\Tx;
 use BitWasp\Bitcoin\Networking\Messages\Version;
 use BitWasp\Bitcoin\Networking\Peer\Peer;
@@ -123,7 +124,7 @@ class Listener
             });
 
         $peer->on('version', function (Peer $peer, Version $ver) {
-            $this->wlog("Bitcoind Version is ".$ver->getVersion());
+            $this->wlog("--- Bitcoind Version is ".$ver->getVersion());
         });
 
         $peer->on('ready', function (Peer $peer) {
@@ -140,8 +141,16 @@ class Listener
                         ++$this->state['blockCount'];
 
                     } else if ($item->isTx()) {
-                        // get the full tx data from bitcoind
-                        $peer->getdata([$item]);
+                        $txid = $item->getHash()->getHex();
+                        if ($this->state['txCount'] < 40) {
+                            $this->wlog("TX {$this->state['txCount']}: $txid");
+                        } else if ($this->state['txCount'] == 40) {
+                            $this->wlog("End logging every TX ID");
+                        }
+
+                        $this->tx_handler->handleTransaction($txid);
+                        $this->state['lastTx'] = time();
+                        ++$this->state['txCount'];
                     }
                 }
             } catch (Exception $e) {
@@ -149,11 +158,10 @@ class Listener
             }
         });
 
-        $peer->on('tx', function (Peer $peer, Tx $tx) {
+        $peer->on('ping', function (Peer $peer, Ping $ping) {
             try {
-                $this->tx_handler->handleTransaction($tx->getTransaction());
-                $this->state['lastTx'] = time();
-                ++$this->state['txCount'];
+                $this->wlog("PING received from peer");
+                $peer->pong($ping);
             } catch (Exception $e) {
                 $this->werror("ERROR: ".$e->getMessage());
             }
