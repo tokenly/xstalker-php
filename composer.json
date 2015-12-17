@@ -24,6 +24,9 @@
     ],
 
     "autoload": {
+        "files": [
+            "src/helpers/helpers.php"
+        ],
         "psr-4": {
             "XStalker\\": "src/"
         }

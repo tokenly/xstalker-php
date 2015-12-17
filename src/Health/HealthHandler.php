@@ -17,7 +17,7 @@ class HealthHandler
         $this->service_prefix = $service_prefix;
 
         $this->consul_client = new ConsulClient($consul_url);
-        $this->pheanstalk = new Pheanstalk(getenv('BEANSTALK_HOST'), getenv('BEANSTALK_PORT'));
+        $this->pheanstalk = new Pheanstalk(env'BEANSTALK_HOST'), env'BEANSTALK_PORT'));
     }
 
     public function update($state) {

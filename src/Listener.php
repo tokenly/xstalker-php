@@ -53,9 +53,9 @@ class Listener
         $this->loop->addPeriodicTimer(60, [$this, 'periodic']);
 
         // add health timer
-        if (getenv('CONSUL_ACTIVE')) {
-            $health_handler = new HealthHandler(getenv('CONSUL_URL'), getenv('CONSUL_HEALTH_SERVICE_ID_PREFIX'));
-            $this->loop->addPeriodicTimer(getenv('CONSUL_LOOP_DELAY'), function() use ($health_handler) {
+        if (env('CONSUL_ACTIVE')) {
+            $health_handler = new HealthHandler(env('CONSUL_URL'), env('CONSUL_HEALTH_SERVICE_ID_PREFIX'));
+            $this->loop->addPeriodicTimer(env('CONSUL_LOOP_DELAY'), function() use ($health_handler) {
                 $health_handler->update($this->state);
             });
         }
@@ -69,13 +69,13 @@ class Listener
     protected function initPeerConnector() {
         $factory = new \BitWasp\Bitcoin\Networking\Factory($this->loop);
         $this->peer_factory = $factory->getPeerFactory($factory->getDns());
-        $this->host = $this->peer_factory->getAddress(gethostbyname(getenv('BITCOIND_HOST')), getenv('BITCOIND_PORT'));
+        $this->host = $this->peer_factory->getAddress(gethostbyname(env('BITCOIND_HOST')), env('BITCOIND_PORT'));
         $this->connector = $this->peer_factory->getConnector();
     }
 
     protected function buildHandlers() {
         // initialize our beanstalk connection
-        $pheanstalk = new Pheanstalk(getenv('BEANSTALK_HOST'), getenv('BEANSTALK_PORT'));
+        $pheanstalk = new Pheanstalk(env('BEANSTALK_HOST'), env('BEANSTALK_PORT'));
 
         // setup TXHandler and BlockHandler
         $beanstalk_loader = new BeanstalkLoader($pheanstalk);
