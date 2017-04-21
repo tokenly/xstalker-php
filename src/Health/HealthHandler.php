@@ -17,7 +17,7 @@ class HealthHandler
         $this->service_prefix = $service_prefix;
 
         $this->consul_client = new ConsulClient($consul_url);
-        $this->pheanstalk = new Pheanstalk(env'BEANSTALK_HOST'), env'BEANSTALK_PORT'));
+        $this->pheanstalk = new Pheanstalk(env('BEANSTALK_HOST'), env('BEANSTALK_PORT'));
     }
 
     public function update($state) {
@@ -61,7 +61,7 @@ class HealthHandler
             // tx
             $service_id = $this->service_prefix."tx";
             $tx_delay = time() - $state['lastTx'];
-            if ($tx_delay < 15 OR $run_time < 15) {
+            if ($tx_delay < 65 OR $run_time < 65) {
                 $this->consul_client->checkPass($service_id);
             } else {
                 $this->consul_client->checkFail($service_id, "Last TX was ".($state['lastTx'] > 0 ? "{$tx_delay} sec. ago" : "unknown").".");
