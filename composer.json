@@ -12,7 +12,7 @@
         "packaged/figlet": "^0.0.1",
         "pda/pheanstalk": "^3.1",
         "vlucas/phpdotenv": "^2",
-        "guzzlehttp/guzzle": "^5",
+        "guzzlehttp/guzzle": "^6.2",
         "react/zmq": "^0.3.0"
     },
 
