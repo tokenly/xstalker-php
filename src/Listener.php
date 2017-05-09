@@ -2,11 +2,6 @@
 
 namespace XStalker;
 
-use BitWasp\Bitcoin\Networking\Messages\Inv;
-use BitWasp\Bitcoin\Networking\Messages\Ping;
-use BitWasp\Bitcoin\Networking\Messages\Tx;
-use BitWasp\Bitcoin\Networking\Messages\Version;
-use BitWasp\Bitcoin\Networking\Peer\Peer;
 use Pheanstalk\Pheanstalk;
 use XStalker\BeanstalkLoader;
 use XStalker\BlockHandler;
@@ -21,6 +16,8 @@ use \Exception;
 class Listener
 {
 
+    var $DEBUG_LOG_TX_COUNT = 50;
+
     public function __construct() {
         $this->init();
     }
@@ -29,12 +26,10 @@ class Listener
         // setup event loop
         $this->loop = \React\EventLoop\Factory::create();
 
-        $this->initPeerConnector();
         $this->buildHandlers();
 
         $this->state = new \ArrayObject([
-            'peer'       => null,
-            'connected'  => false,
+            'sub'        => null,
             'start'      => time(),
             'lastTx'     => 0,
             'txCount'    => 0,
@@ -46,7 +41,7 @@ class Listener
     }
 
     public function run() {
-        // start connecting
+        // connect
         $this->connect();
 
         // add periodic timer
@@ -65,13 +60,6 @@ class Listener
     }
 
     // ------------------------------------------------------------------------
-    
-    protected function initPeerConnector() {
-        $factory = new \BitWasp\Bitcoin\Networking\Factory($this->loop);
-        $this->peer_factory = $factory->getPeerFactory($factory->getDns());
-        $this->host = $this->peer_factory->getAddress(gethostbyname(env('BITCOIND_HOST')), env('BITCOIND_PORT'));
-        $this->connector = $this->peer_factory->getConnector();
-    }
 
     protected function buildHandlers() {
         // initialize our beanstalk connection
@@ -94,88 +82,57 @@ class Listener
             .' Handled '.$this->state['blockCount'].' blocks and '.$this->state['txCount'].' transactions.';
 
         $this->wlog("Been running for $desc");
-
-        if ($this->state['connected'] AND $this->state['peer']) {
-            $this->state['peer']->ping();
-        } else if (!$this->state['connected']) {
-            $this->werror("Found disconnected state");
-            $this->loop->futureTick([$this, 'connect']);
-        }
     }
 
     public function connect() {
-        if ($this->state['connected']) {
-            $this->wlog("Already connected.  Ignoring connection request.");
-            return;
-        }
+        // connect
+        $context = new \React\ZMQ\Context($this->loop);
+        $sub = $context->getSocket(\ZMQ::SOCKET_SUB);
+        $connection_string = 'tcp://'.gethostbyname(env('BITCOIND_HOST')).':'.env('BITCOIND_ZMQ_PORT');
+        $this->wlog("--- Connecting to ZMQ publisher at ".$connection_string);
+        $sub->connect($connection_string);
 
-        $peer = $this->peer_factory->getPeer();
-        $this->state['peer'] = $peer;
-        $this->state['connected'] = true;
 
-        $this->wlog("--- Connecting to peer at ".$this->host->getIp().":".$this->host->getPort());
-        $peer->requestRelay()
-            ->timeoutWithoutVersion(10)
-            ->connect($this->connector, $this->host)
-            ->otherwise(function ($e) {
-                $this->state['connected'] = false;
-                $this->wlog("Connection failed ".$e->getMessage());
-                $this->loop->addTimer(2, [$this, 'connect']);
-            });
+        // listen to tx and block messages
+        $sub->subscribe('hashtx');
+        $sub->subscribe('hashblock');
+        $sub->on('messages', function ($msg) use (&$tx_count, &$break) {
+            $channel = $msg[0];
 
-        $peer->on('version', function (Peer $peer, Version $ver) {
-            $this->wlog("--- Bitcoind Version is ".$ver->getVersion());
-        });
-
-        $peer->on('ready', function (Peer $peer) {
-            $remote_addr = $peer->getRemoteAddr();
-            $this->wlog("+++ Connected to peer at ".$remote_addr->getIp().":".$remote_addr->getPort());
-        });
-
-        $peer->on('inv', function (Peer $peer, Inv $inv) {
-            try {
-                foreach ($inv->getItems() as $item) {
-                    if ($item->isBlock() OR $item->isFilteredBlock()) {
-                        $this->block_handler->handleBlock($item->getHash()->getHex());
-                        $this->state['lastBlock'] = time();
-                        ++$this->state['blockCount'];
-
-                    } else if ($item->isTx()) {
-                        $txid = $item->getHash()->getHex();
-                        if ($this->state['txCount'] < 40) {
-                            $this->wlog("TX {$this->state['txCount']}: $txid");
-                        } else if ($this->state['txCount'] == 40) {
-                            $this->wlog("End logging every TX ID");
-                        }
-
-                        $this->tx_handler->handleTransaction($txid);
-                        $this->state['lastTx'] = time();
-                        ++$this->state['txCount'];
-                    }
+            if ($channel == 'hashtx') {
+                $txid = bin2hex($msg[1]);
+                if ($this->state['txCount'] < $this->DEBUG_LOG_TX_COUNT) {
+                    $this->wlog("TX {$this->state['txCount']}: $txid");
+                } else if ($this->state['txCount'] == $this->DEBUG_LOG_TX_COUNT) {
+                    $this->wlog("End logging every TX ID");
                 }
-            } catch (Exception $e) {
-                $this->werror("ERROR: ".$e->getMessage());
+
+                $this->tx_handler->handleTransaction($txid);
+                $this->state['lastTx'] = time();
+                ++$this->state['txCount'];
+            } else if ($channel == 'hashblock') {
+                $block_hash = bin2hex($msg[1]);
+
+                $this->wlog("=== BLOCK ".($this->state['blockCount']+1)." received: $block_hash ===");
+
+                $this->block_handler->handleBlock($block_hash);
+                $this->state['lastBlock'] = time();
+                ++$this->state['blockCount'];
+            } else {
+                $this->werror("Unknown channel: $channel");
             }
         });
 
-        $peer->on('ping', function (Peer $peer, Ping $ping) {
-            try {
-                $this->wlog("PING received from peer");
-                $peer->pong($ping);
-            } catch (Exception $e) {
-                $this->werror("ERROR: ".$e->getMessage());
-            }
+        $sub->on('error', function ($e) {
+            $this->werror($e->getMessage());
         });
 
-        // handle disconnection and reconnect
-        $peer->on('close', function () {
-            $this->state['connected'] = false;
-            $this->wlog("Disconnected..");
-
-            // received a disconnect notice
-            // connect again in a few seconds
-            $this->loop->addTimer(4, [$this, 'connect']);
+        // handle disconnection
+        $sub->on('end', function () {
+            $this->wlog("Disconnected.");
         });
+
+        $this->state['sub'] = $sub;
     }
 
     protected function werror($msg) {

@@ -13,6 +13,9 @@ use \Exception;
 class HealthHandler
 {
 
+    const TX_DELAY = 15; // no transaction within 15 seconds triggers a failure
+    const BLOCK_DELAY = 4200; // no block within 1:10 triggers a failure
+
     public function __construct($consul_url, $service_prefix) {
         $this->service_prefix = $service_prefix;
 
@@ -27,7 +30,7 @@ class HealthHandler
         $this->checkQueueConnection();
 
         // connected state
-        $this->checkPeerStatuses($state);
+        $this->checkMessageStatuses($state);
     }
 
     
@@ -45,23 +48,15 @@ class HealthHandler
         }
     }
 
-    public function checkPeerStatuses($state) {
+    public function checkMessageStatuses($state) {
         try {
 
             $run_time = time() - $state['start'];
 
-            // peer
-            $service_id = $this->service_prefix."peer";
-            if ($state['connected'] OR $run_time < 15) {
-                $this->consul_client->checkPass($service_id);
-            } else {
-                $this->consul_client->checkFail($service_id, "Disconnected");
-            }
-
             // tx
             $service_id = $this->service_prefix."tx";
             $tx_delay = time() - $state['lastTx'];
-            if ($tx_delay < 65 OR $run_time < 65) {
+            if ($tx_delay < self::TX_DELAY OR $run_time < (self::TX_DELAY / 2)) {
                 $this->consul_client->checkPass($service_id);
             } else {
                 $this->consul_client->checkFail($service_id, "Last TX was ".($state['lastTx'] > 0 ? "{$tx_delay} sec. ago" : "unknown").".");
@@ -70,14 +65,14 @@ class HealthHandler
             // block
             $service_id = $this->service_prefix."block";
             $block_delay = time() - $state['lastBlock'];
-            if ($block_delay < 3600 OR $run_time < 1800) {
+            if ($block_delay < self::BLOCK_DELAY OR $run_time < (self::BLOCK_DELAY / 2)) {
                 $this->consul_client->checkPass($service_id);
             } else {
-                $this->consul_client->checkFail($service_id, "Last Block was ".($state['lastTx'] > 0 ? "{$block_delay} sec. ago" : "unknown").".");
+                $this->consul_client->checkFail($service_id, "Last Block was ".($state['lastBlock'] > 0 ? "{$block_delay} sec. ago" : "unknown").".");
             }
 
         } catch (Exception $e) {
-            $this->werror("Check Peer Connection Failed: ".$e->getMessage());
+            $this->werror("Check Messages Failed: ".$e->getMessage());
         }
 
     }

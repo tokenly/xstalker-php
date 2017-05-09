@@ -7,6 +7,8 @@ use XStalker\Listener;
 
 require __DIR__.'/../vendor/autoload.php';
 
+$version = "1.0.0";
+
 // initialize environment variables
 $dotenv = new Dotenv(__DIR__.'/..');
 $dotenv->load();
@@ -15,7 +17,7 @@ $dotenv->load();
 $figlet = new Figlet('shadow', 'shadow');
 $banner = $figlet->render('Tokenly Bitcoin Stalker');
 $sep = str_repeat('-', strlen(explode("\n", $banner)[0]))."\n";
-print $sep.$banner.$sep;
+print $sep.$banner."v{$version}\n".$sep;
 
 
 // init listener

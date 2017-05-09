@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1fc756731d13e1090ac457fff1751125",
-    "content-hash": "d471772e753668cb08c6191136eb6ba7",
+    "content-hash": "d545fcde8ba4ec8e00e8c1e53d9e2f09",
     "packages": [
         {
             "name": "bitwasp/bitcoin",
@@ -64,7 +63,7 @@
             ],
             "description": "PHP Bitcoin library with functions for transactions, signatures, serialization, Random/Deterministic ECDSA keys, blocks, RPC bindings",
             "homepage": "https://github.com/bit-wasp/bitcoin-php",
-            "time": "2015-11-30 21:24:50"
+            "time": "2015-11-30T21:24:50+00:00"
         },
         {
             "name": "bitwasp/bitcoin-p2p",
@@ -167,7 +166,7 @@
                 }
             ],
             "description": "Toolbox for working with binary and hex data. Similar to NodeJS Buffer.",
-            "time": "2015-11-24 20:33:11"
+            "time": "2015-11-24T20:33:11+00:00"
         },
         {
             "name": "bitwasp/secp256k1-php",
@@ -214,7 +213,7 @@
                 "php",
                 "secp256k1"
             ],
-            "time": "2015-10-26 01:28:47"
+            "time": "2015-10-26T01:28:47+00:00"
         },
         {
             "name": "bitwasp/stratum",
@@ -253,7 +252,7 @@
             ],
             "description": "library for interfacing with stratum servers, used to serve both bitcoin mining and electrum clients",
             "homepage": "https://github.com/Bit-Wasp/stratum-php",
-            "time": "2015-05-16 23:04:04"
+            "time": "2015-05-16T23:04:04+00:00"
         },
         {
             "name": "bitwasp/trait",
@@ -286,7 +285,7 @@
                 }
             ],
             "description": "A collection of traits",
-            "time": "2015-11-11 18:23:27"
+            "time": "2015-11-11T18:23:27+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -356,7 +355,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2015-12-03 10:50:37"
+            "time": "2015-12-03T10:50:37+00:00"
         },
         {
             "name": "evenement/evenement",
@@ -402,7 +401,7 @@
                 "event-dispatcher",
                 "event-emitter"
             ],
-            "time": "2012-11-02 14:49:47"
+            "time": "2012-11-02T14:49:47+00:00"
         },
         {
             "name": "fgrosse/phpasn1",
@@ -454,7 +453,7 @@
             ],
             "description": "A PHP Framework that allows you to encode and decode arbitrary ASN.1 structures using the ITU-T X.690 Encoding Rules.",
             "homepage": "https://github.com/FGrosse/PHPASN1",
-            "time": "2015-07-15 21:26:40"
+            "time": "2015-07-15T21:26:40+00:00"
         },
         {
             "name": "fguillot/json-rpc",
@@ -491,7 +490,7 @@
             ],
             "description": "A simple Json-RPC client/server library that just works",
             "homepage": "https://github.com/fguillot/JsonRPC",
-            "time": "2014-11-22 20:32:14"
+            "time": "2014-11-22T20:32:14+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -549,7 +548,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2015-05-20 03:47:55"
+            "time": "2015-05-20T03:47:55+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -607,7 +606,7 @@
                 "stream",
                 "uri"
             ],
-            "time": "2015-11-03 01:34:55"
+            "time": "2015-11-03T01:34:55+00:00"
         },
         {
             "name": "guzzlehttp/ringphp",
@@ -658,7 +657,7 @@
                 }
             ],
             "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
-            "time": "2015-05-20 03:37:09"
+            "time": "2015-05-20T03:37:09+00:00"
         },
         {
             "name": "guzzlehttp/streams",
@@ -708,7 +707,7 @@
                 "Guzzle",
                 "stream"
             ],
-            "time": "2014-10-12 19:18:40"
+            "time": "2014-10-12T19:18:40+00:00"
         },
         {
             "name": "lastguest/murmurhash",
@@ -751,7 +750,7 @@
                 "hashing",
                 "murmur"
             ],
-            "time": "2015-08-24 17:14:16"
+            "time": "2015-08-24T17:14:16+00:00"
         },
         {
             "name": "mdanter/ecc",
@@ -810,7 +809,7 @@
             ],
             "description": "PHP Elliptic Curve Cryptography library",
             "homepage": "https://github.com/mdanter/phpecc",
-            "time": "2014-07-07 12:44:15"
+            "time": "2014-07-07T12:44:15+00:00"
         },
         {
             "name": "packaged/figlet",
@@ -850,7 +849,7 @@
                 "figlet",
                 "font"
             ],
-            "time": "2014-02-20 14:54:57"
+            "time": "2014-02-20T14:54:57+00:00"
         },
         {
             "name": "pda/pheanstalk",
@@ -900,7 +899,7 @@
             "keywords": [
                 "beanstalkd"
             ],
-            "time": "2015-08-07 21:42:41"
+            "time": "2015-08-07T21:42:41+00:00"
         },
         {
             "name": "pleonasm/merkle-tree",
@@ -943,7 +942,7 @@
                 }
             ],
             "description": "An implementation of a Merkle Tree in PHP",
-            "time": "2013-05-22 20:46:20"
+            "time": "2013-05-22T20:46:20+00:00"
         },
         {
             "name": "psr/http-message",
@@ -992,7 +991,7 @@
                 "request",
                 "response"
             ],
-            "time": "2015-05-04 20:22:00"
+            "time": "2015-05-04T20:22:00+00:00"
         },
         {
             "name": "react/cache",
@@ -1031,7 +1030,7 @@
             "keywords": [
                 "cache"
             ],
-            "time": "2014-02-02 01:11:26"
+            "time": "2014-02-02T01:11:26+00:00"
         },
         {
             "name": "react/child-process",
@@ -1072,7 +1071,7 @@
             "keywords": [
                 "process"
             ],
-            "time": "2014-02-02 01:11:26"
+            "time": "2014-02-02T01:11:26+00:00"
         },
         {
             "name": "react/dns",
@@ -1114,7 +1113,7 @@
                 "dns",
                 "dns-resolver"
             ],
-            "time": "2014-04-12 14:09:10"
+            "time": "2014-04-12T14:09:10+00:00"
         },
         {
             "name": "react/event-loop",
@@ -1157,7 +1156,7 @@
             "keywords": [
                 "event-loop"
             ],
-            "time": "2014-02-26 17:36:58"
+            "time": "2014-02-26T17:36:58+00:00"
         },
         {
             "name": "react/http",
@@ -1199,7 +1198,7 @@
             "keywords": [
                 "http"
             ],
-            "time": "2015-05-21 20:12:09"
+            "time": "2015-05-21T20:12:09+00:00"
         },
         {
             "name": "react/http-client",
@@ -1244,7 +1243,7 @@
             "keywords": [
                 "http"
             ],
-            "time": "2015-10-05 19:13:01"
+            "time": "2015-10-05T19:13:01+00:00"
         },
         {
             "name": "react/promise",
@@ -1288,7 +1287,7 @@
                 }
             ],
             "description": "A lightweight implementation of CommonJS Promises/A for PHP",
-            "time": "2015-07-03 13:48:55"
+            "time": "2015-07-03T13:48:55+00:00"
         },
         {
             "name": "react/react",
@@ -1341,7 +1340,7 @@
                 "event-loop",
                 "reactor"
             ],
-            "time": "2014-12-11 02:06:55"
+            "time": "2014-12-11T02:06:55+00:00"
         },
         {
             "name": "react/socket",
@@ -1382,7 +1381,7 @@
             "keywords": [
                 "Socket"
             ],
-            "time": "2014-05-25 17:02:16"
+            "time": "2014-05-25T17:02:16+00:00"
         },
         {
             "name": "react/socket-client",
@@ -1424,7 +1423,7 @@
             "keywords": [
                 "Socket"
             ],
-            "time": "2015-09-23 22:40:04"
+            "time": "2015-09-23T22:40:04+00:00"
         },
         {
             "name": "react/stream",
@@ -1472,7 +1471,52 @@
                 "pipe",
                 "stream"
             ],
-            "time": "2015-10-07 18:32:58"
+            "time": "2015-10-07T18:32:58+00:00"
+        },
+        {
+            "name": "react/zmq",
+            "version": "v0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/zmq.git",
+                "reference": "2865e3b23000751ed443d3f108da2735abf80716"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/zmq/zipball/2865e3b23000751ed443d3f108da2735abf80716",
+                "reference": "2865e3b23000751ed443d3f108da2735abf80716",
+                "shasum": ""
+            },
+            "require": {
+                "evenement/evenement": "~2.0",
+                "ext-zmq": "*",
+                "php": ">=5.4.0",
+                "react/event-loop": "0.4.*"
+            },
+            "require-dev": {
+                "ext-pcntl": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "React\\ZMQ": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "ZeroMQ bindings for React.",
+            "keywords": [
+                "zeromq",
+                "zmq"
+            ],
+            "time": "2014-05-25T17:54:51+00:00"
         },
         {
             "name": "rgooding/protobuf-php",
@@ -1523,7 +1567,7 @@
                 "protocol buffer",
                 "serializing"
             ],
-            "time": "2013-05-29 14:39:13"
+            "time": "2013-05-29T14:39:13+00:00"
         },
         {
             "name": "rych/hash_pbkdf2-compat",
@@ -1568,7 +1612,7 @@
                 "hash_pbkdf2",
                 "pbkdf2"
             ],
-            "time": "2015-11-23 03:34:42"
+            "time": "2015-11-23T03:34:42+00:00"
         },
         {
             "name": "symfony/console",
@@ -1628,7 +1672,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2015-11-30 12:35:10"
+            "time": "2015-11-30T12:35:10+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1684,7 +1728,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2015-11-04 20:28:58"
+            "time": "2015-11-04T20:28:58+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -1735,15 +1779,13 @@
                 "env",
                 "environment"
             ],
-            "time": "2015-10-28 18:53:35"
+            "time": "2015-10-28T18:53:35+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "bitwasp/bitcoin-p2p": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],

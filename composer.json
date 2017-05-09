@@ -9,19 +9,12 @@
     ],
     "license": "MIT",
     "require": {
-        "bitwasp/bitcoin-p2p": "dev-closeemitter",
         "packaged/figlet": "^0.0.1",
         "pda/pheanstalk": "^3.1",
         "vlucas/phpdotenv": "^2",
-        "guzzlehttp/guzzle": "^5"
+        "guzzlehttp/guzzle": "^5",
+        "react/zmq": "^0.3.0"
     },
-
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/tokenly/bitcoin-p2p-php"
-        }
-    ],
 
     "autoload": {
         "files": [
